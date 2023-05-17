@@ -1,0 +1,201 @@
+Foundations Capstone Project
+Overview
+Today you’ll start building a solo project! You’ll have about the next week and a half to work on this. The time is roughly equivalent to 6 lab exercises, so keep that in mind when you’re figuring out the scope of your project.
+
+Basic Requirements
+Planning documentation
+
+Needs to have an interactive front end (inputs, buttons, etc.)
+
+User can :
+1. See SWAPI Squadron's race on the field and by scrolling the mouse.
+1. Create new Squadrons.
+2. Update new Squadrons speed.
+3. Delete Squadrons.
+4. Randomly select Squadrons for self.
+5. See the Winner.
+
+Should have at least 3 main features
+
+1. SWAPI Squadron's field.
+2. Button Create new Squadrons.
+3. Button Update new Squadrons speed.
+4. Button Delete Squadrons.
+
+Includes styling
+
+1. global.CSS
+2. style.CSS
+3. responsive.CSS
+
+Connects to a server and makes requests from the front end (express and axios)
+
+server/server.JS
+
+2-3 minute presentation
+
+Checklist
+Overview
+Remember: you do not have to include every single item! 14 is the minimum.
+
+The required items are starred.
+
+Planning
+project includes a wireframe for each view
+
+1. project includes a list of MVP features *
+    a. SWAPI Squadron's field.
+    b. Button Create new Squadrons.
+    c. Button Update new Squadrons speed.
+    d. Button Delete Squadrons.
+
+project includes a data model
+
+MVP
+app has at least 3 main features *
+    1. SWAPI Squadron's field.
+    2. Show All Squadron's.
+    3. Create, Delete, Update Squadron's buttons
+
+front end makes a request to the server and handles the response *
+    getAllStarShips => axios.get
+    createNewStarShip = data => axios.post
+    deleteStarShip = id => axios.delete
+    updateStarShip = (id, data) => axios.put
+
+front end is interactive *
+    1. SWAPI Squadron's field interacts with the user by scrolling
+    2. Button Create new Squadrons.
+    3. Button Update new Squadrons speed.
+    4. Button Delete Squadrons.
+
+app has custom styling *
+    global.css - colors, var's, resets
+
+Front End
+app has at least 5 semantic tags *
+    1. header
+    2. nav
+    3. main
+    4. section
+    5. footer
+
+app includes 1 view *
+    field.htm
+
+app includes 1+ additional view(s)
+    squadron.html
+
+styling includes flexbox
+    squadron.css(.card)
+at least 1 view is responsive
+
+styling includes animations
+    GSAP.js 
+
+Server
+app includes a GET endpoint and handler function *
+    getAllStarShips => axios.get(/starships)
+
+app includes a POST endpoint and handler function *
+    createNewStarShip = data => axios.post(/newstarship, data)
+
+app includes a PUT endpoint and handler function
+     axios.put(/starship/:id, data)
+
+app includes a DELETE endpoint and handler function
+    deleteStarShip = id => axios.delete(/starship/:id)
+
+app utilizes Sequelize
+project includes at least 1 controller file
+    server/controller.js
+Database
+project includes a seed file or function
+    controller.js (seed:)
+app uses 1 table
+     CREATE TABLE SQUADRON
+        ID SERIAL PRIMARY KEY,
+        NAME VARCHAR,
+        SPEED INTEGER,
+        WINNER INTEGER
+  
+app uses 1+ additional tables
+
+app uses a foreign key and join
+
+Presentation
+discusses project purpose and demonstrates MVP *
+
+does not discuss broken/unimplemented features
+
+recording is between 2-3 minutes
+
+Instructions
+Planning
+It’s difficult to plan a software project the first few times. Your plans will not be perfect, and that’s okay. Try to make your plan as comprehensive as you can – it will help you throughout the process. And don’t be afraid to update your plan as you go.
+
+Start out brainstorming - look through projects we’ve done and read through the ideas at the bottom of this page.
+
+List out your 3+ MVP (minimum viable product) features. Name your project.
+
+Wireframe your page(s).
+
+Make a to do list for coding. It’s okay if this isn’t comprehensive, just try to give yourself a little structure.
+
+When you have your features, app name, wireframe(s), and to do list, pass off your plan with a staff member.
+
+Make adjustments if needed.
+
+Set up a folder on your computer and a remote repo on GitHub. Connect them. Upload your completed planning documentation to your repo.
+
+Coding
+You can choose how you want to do this, but here’s a suggested work flow if you’re feeling stuck:
+
+Start by creating HTML, CSS, and JS files and linking them together for the front end.
+
+Set up a basic server for your back end.
+
+Build the HTML for your first feature.
+
+Write the JavaScript for your first feature (front and back).
+
+Add in CSS for that section of the page.
+
+Repeat the process for your other 2 features.
+
+Polish the layout and styling of the page.
+
+Add any additional features.
+
+Ideas & Examples
+Ideas
+Choose a previous lab exercise from Foundations to build on.
+
+Use a previous lab as inspiration and create a similar project.
+
+Come up with your own idea!
+
+Examples
+Magic 8 Ball. Your 3 features might be:
+
+Users can enter questions
+
+Users get randomized answers to their questions
+
+Users can save responses (until you refresh the page)
+
+Trip List. Your 3 features might be:
+
+User can add a location to a “Want to Visit” or a “Visited” list
+
+User can delete items from their lists
+
+User can view one or both lists
+
+Calculator. Your 3 features might be:
+
+User can add, subtract, multiply, or divide numbers
+
+User can continue calculation on a given answer (press 2 + 3 = and then can do * 10 to the 5 that’s returned)
+
+User can save amounts (for budgeting or figuring out comple
