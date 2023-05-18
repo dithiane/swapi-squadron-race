@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        nested: resolve(__dirname, 'client/index.html'),
+        main: "./client/index.html"
       },
     },
   },
