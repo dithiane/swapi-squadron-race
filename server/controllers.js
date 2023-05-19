@@ -15,12 +15,13 @@ const sequelize = new Sequelize(CONNECTION_STRING, {
 module.exports = {
     seed: (req, res) => {
         sequelize.query(`
-                       DROP TABLE IF EXISTS WINNER;
+            DROP TABLE IF EXISTS WINNER;
             DROP TABLE IF EXISTS SQUADRON;
                     CREATE TABLE SQUADRON (
                         squadron_id SERIAL PRIMARY KEY,
                         name VARCHAR,
-                        speed INTEGER
+                        speed INTEGER,
+                        acceleration NUMERIC
                     );
                     CREATE TABLE WINNER (
                         winner_id SERIAL PRIMARY KEY,
@@ -31,17 +32,18 @@ module.exports = {
 
                     INSERT INTO SQUADRON (
                         name,
-                        speed
+                        speed,
+                        acceleration
                     )
                     VALUES
-                    ('CR90 corvette', 950),
-                    ('Star Destroyer', 975),
-                    ('Sentinel-class landing craft', 1000),
-                    ('Death Star', 925),
-                    ('Millennium Falcon', 1050),
-                    ('Y-wing', 1000),
-                    ('X-wing', 1050),
-                    ('TIE Advanced x1', 1200);
+                    ('CR90', 750, 3.6),
+                    ('StarDestroyer', 675, 5.4),
+                    ('SentinelCraft', 1000, 2.3),
+                    ('DeathStar', 525, 4.5),
+                    ('Millennium Falcon', 1150, 3.2),
+                    ('Ywing', 1200, 1.4),
+                    ('Xwing', 1050, 3.2),
+                    ('TIEAdvancedX1', 1200, 1.1);
 
         `).then(() => {
             console.log('DB seeded!')
@@ -57,6 +59,18 @@ module.exports = {
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => {
                 console.log(`There was an error in getSquadrons`, err)
+                res.status(500).send(err)
+            })
+    },
+    deleteSquadron: (req, res) => {
+        const { id } = req.params
+        sequelize.query(`
+            DELETE FROM squadron
+            WHERE squadron_id = ${id}
+        `)
+            .then(dbRes => res.status(200).send(dbRes[0]))
+            .catch(err => {
+                console.log(`There was an error in deleteSquadron`, err)
                 res.status(500).send(err)
             })
     },

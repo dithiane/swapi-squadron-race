@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { SERVER_PORT } = process.env
-const { seed, getAllSquadrons } = require('./controllers.js')
+const { seed, getAllSquadrons, deleteSquadron } = require('./controllers.js')
 
 
 const express = require("express");
@@ -15,5 +15,6 @@ app.use(cors());
 // DEV
 app.post('/seed', seed)
 app.get('/squadrons', getAllSquadrons)
+app.delete('/squadron/:id', deleteSquadron)
 
 app.listen(SERVER_PORT, () => console.log("Server running on 4000"));
