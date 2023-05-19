@@ -66,9 +66,48 @@ module.exports = {
         const { id } = req.params
         sequelize.query(`
             DELETE FROM squadron
-            WHERE squadron_id = ${id}
+            WHERE squadron_id = ${id};
+            SELECT *
+            FROM squadron
         `)
-            .then(dbRes => res.status(200).send(dbRes[0]))
+            .then(dbRes => {
+                res.status(200).send(dbRes[0])
+                console.log(dbRes[0])
+            })
+            .catch(err => {
+                console.log(`There was an error in deleteSquadron`, err)
+                res.status(500).send(err)
+            })
+    },
+    updateSquadron: (req, res) => {
+        const { id } = req.params
+        sequelize.query(`
+            DELETE FROM squadron
+            WHERE squadron_id = ${id};
+            SELECT *
+            FROM squadron
+        `)
+            .then(dbRes => {
+                res.status(200).send(dbRes[0])
+                console.log(dbRes[0])
+            })
+            .catch(err => {
+                console.log(`There was an error in deleteSquadron`, err)
+                res.status(500).send(err)
+            })
+    },
+    updatSquadron: (req, res) => {
+        const { id } = req.params
+        sequelize.query(`
+            DELETE FROM squadron
+            WHERE squadron_id = ${id};
+            SELECT *
+            FROM squadron
+        `)
+            .then(dbRes => {
+                res.status(200).send(dbRes[0])
+                console.log(dbRes[0])
+            })
             .catch(err => {
                 console.log(`There was an error in deleteSquadron`, err)
                 res.status(500).send(err)

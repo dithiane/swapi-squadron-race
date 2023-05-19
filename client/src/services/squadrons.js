@@ -21,8 +21,16 @@ export const deleteSquadron = createAsyncThunk(
         const { id } = initialPost;
 
         const response = await axios.delete(`${url}/squadron/${id}`)
-        if (response?.status === 200) return initialPost;
-        return `${response?.status}: ${response?.statusText}`;
+        if (response?.status === 200) return response.data;
+    })
+
+export const updateSquadron = createAsyncThunk(
+    'squadrons/update',
+    async (initialPost) => {
+        const { id } = initialPost;
+
+        const response = await axios.put(`${url}/squadron/${id}`)
+        if (response?.status === 200) return response.data;
     })
 
 export const squadronsSlice = createSlice({
@@ -36,10 +44,6 @@ export const squadronsSlice = createSlice({
         builder.addCase(fetchSquadrons.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
-            const loadedSquadrons = action.payload.map(s => {
-                s.id = s.squadron_id
-                return s
-            })
             state.error = null;
         });
         builder.addCase(fetchSquadrons.rejected, (state, action) => {
@@ -48,13 +52,9 @@ export const squadronsSlice = createSlice({
             state.error = action.error;
         });
         builder.addCase(deleteSquadron.fulfilled, (state, action) => {
-            if (!action.payload?.id) {
-                console.log('Delete could not complete')
-                console.log(action.payload)
-                return;
-            }
-            const { id } = action.payload;
-            state.data.splice(state.data.findIndex(i => i.id === id), 1)
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null
         })
     }
 })
