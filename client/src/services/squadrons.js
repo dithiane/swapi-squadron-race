@@ -27,9 +27,16 @@ export const deleteSquadron = createAsyncThunk(
 export const updateSquadron = createAsyncThunk(
     'squadrons/update',
     async (initialPost) => {
-        const { id } = initialPost;
+        const { id, speed } = initialPost;
 
-        const response = await axios.put(`${url}/squadron/${id}`)
+        const response = await axios.put(`${url}/squadron/${id}`, { speed })
+        if (response?.status === 200) return response.data;
+    })
+
+export const createSquadron = createAsyncThunk(
+    'squadrons/create',
+    async () => {
+        const response = await axios.post(`${url}/squadrons/`, body)
         if (response?.status === 200) return response.data;
     })
 
@@ -52,6 +59,11 @@ export const squadronsSlice = createSlice({
             state.error = action.error;
         });
         builder.addCase(deleteSquadron.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null
+        })
+        builder.addCase(updateSquadron.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
             state.error = null

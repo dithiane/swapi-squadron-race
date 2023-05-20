@@ -40,7 +40,7 @@ module.exports = {
                     ('StarDestroyer', 675, 5.4),
                     ('SentinelCraft', 1000, 2.3),
                     ('DeathStar', 525, 4.5),
-                    ('Millennium Falcon', 1150, 3.2),
+                    ('MillenniumFalcon', 1150, 3.2),
                     ('Ywing', 1200, 1.4),
                     ('Xwing', 1050, 3.2),
                     ('TIEAdvancedX1', 1200, 1.1);
@@ -55,6 +55,7 @@ module.exports = {
         sequelize.query(`
         SELECT *
         FROM squadron
+        ORDER BY name
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => {
@@ -69,6 +70,7 @@ module.exports = {
             WHERE squadron_id = ${id};
             SELECT *
             FROM squadron
+            ORDER BY name
         `)
             .then(dbRes => {
                 res.status(200).send(dbRes[0])
@@ -81,11 +83,14 @@ module.exports = {
     },
     updateSquadron: (req, res) => {
         const { id } = req.params
+        const { speed } = req.body
         sequelize.query(`
-            DELETE FROM squadron
+            UPDATE squadron
+            SET speed = ${speed}
             WHERE squadron_id = ${id};
             SELECT *
             FROM squadron
+            ORDER BY name
         `)
             .then(dbRes => {
                 res.status(200).send(dbRes[0])
@@ -96,13 +101,14 @@ module.exports = {
                 res.status(500).send(err)
             })
     },
-    updatSquadron: (req, res) => {
-        const { id } = req.params
+    createSquadron: (req, res) => {
+        const { speed, name, acceleration } = req.body
         sequelize.query(`
-            DELETE FROM squadron
-            WHERE squadron_id = ${id};
+            INSERT INTO squadron (name, speed, acceleration)
+            VALUES(${speed}, '${name}', ${acceleration});
             SELECT *
             FROM squadron
+            ORDER BY name
         `)
             .then(dbRes => {
                 res.status(200).send(dbRes[0])

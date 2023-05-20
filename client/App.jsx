@@ -1,18 +1,28 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchSquadrons, selectData } from "./src/services/squadrons"
+import {
+  fetchSquadrons,
+  deleteSquadron,
+  updateSquadron,
+  selectData,
+} from "./src/services/squadrons"
 import { gsap } from "gsap"
 import Modal from "./src/components/Portal"
 import Squadron from "./src/components/Squadron"
 gsap.registerPlugin(ScrollTrigger)
 const SCROLL_FINISH = 320
 const ACCELERATION_TO_FINISH = 200
+const MAX_SPEED = 3500
+const MIN_SPEED = 0
 
 const App = () => {
   const [starShips, setStarShips] = useState(null)
   const [deployed, setDeployed] = useState(false)
   const [winner, setWinner] = useState(null)
   const [showModal, setShowModal] = useState(true)
+  const [type, setType] = useState("start")
+  const [squadron, setSquadron] = useState(null)
+  const [yourStarShip, setYourStartShip] = useState(null)
 
   const dispatch = useDispatch()
   const squadrons = useSelector(selectData)
@@ -28,7 +38,7 @@ const App = () => {
           window.pageYOffset > SCROLL_FINISH &&
           window.pageYOffset + currentY < ACCELERATION_TO_FINISH
         if (checkFinish) {
-          setWinner(el.firstChild.data)
+          setWinner(el.firstChild.innerText)
         }
         return Boolean(checkFinish)
       })
@@ -36,7 +46,10 @@ const App = () => {
   }
 
   useEffect(() => {
-    if (winner) setShowModal(true)
+    if (winner) {
+      setType("info")
+      setShowModal(true)
+    }
   }, [winner])
 
   useEffect(() => {
@@ -85,19 +98,23 @@ const App = () => {
         })
       })
     }
-  }, [deployed])
+  }, [deployed, squadrons])
   const deploySquadrons = () => (
     <div ref={refSquadrons}>
       {starShips.map((el, index) => (
         <Squadron
           key={index}
-          name={el.name}
+          name={
+            yourStarShip && yourStarShip.id === index
+              ? yourStarShip.name
+              : el.name
+          }
           speed={el.speed}
           accel={el.acceleration}
           id={el.squadron_id}
           index={index}
           total={starShips.length}
-          saveWinner={saveWinner}
+          callSquadron={callSquadron}
         />
       ))}
     </div>
@@ -107,15 +124,68 @@ const App = () => {
     if (!showModal && !winner) dispatch(fetchSquadrons())
   }, [showModal])
 
+  useEffect(() => {
+    if (squadron) setShowModal(true)
+  }, [squadron])
+
+  const callSquadron = (id, name, speed, type) => {
+    setSquadron({ id, name, speed })
+    setType(type)
+  }
+
+  const handleWinner = (text) => {
+    saveWinner(text)
+    setShowModal(false)
+  }
+
+  const handleDelete = (id) => {
+    try {
+      dispatch(deleteSquadron({ id }))
+    } catch (err) {
+      console.error("Failed to delete the Squadron", err)
+    }
+    setShowModal(false)
+  }
+
+  const controlSpeed = (speed) => {
+    let currentSpeed = MAX_SPEED
+    if (speed <= MAX_SPEED) currentSpeed = speed
+    if (speed < MIN_SPEED) currentSpeed = MIN_SPEED
+    return currentSpeed
+  }
+
+  const handleUpdate = (id, currentSpeed) => {
+    const speed = controlSpeed(currentSpeed)
+    try {
+      dispatch(updateSquadron({ id, speed }))
+    } catch (err) {
+      console.error("Failed to update the Squadron", err)
+    }
+    setShowModal(false)
+  }
+
+  const assignSquadron = (e) => {
+    e.preventDefault()
+    const randomId = Math.floor(Math.random() * starShips.length)
+    setYourStartShip({ id: randomId, name: `You` })
+  }
+
   return (
     <>
+      <div className="controls">
+        <button>Create New Squadron</button>
+        <button onClick={(e) => assignSquadron(e)}>Select Squadron</button>
+      </div>
       {showModal ? (
         <Modal
           className="fade-up"
           text={winner}
-          type={winner ? "info" : "action"}
+          type={type}
+          squadron={squadron}
           toggleModal={setShowModal}
-          saveWinner={saveWinner}
+          handleWinner={handleWinner}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
         />
       ) : null}
       <div className="field" ref={ref}>

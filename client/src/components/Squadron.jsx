@@ -1,23 +1,9 @@
 import React from "react"
-import { useDispatch } from "react-redux"
-import { deleteSquadron, updateSquadron } from "../services/squadrons"
-const getStartPosition = (total, id) => ((100 / total) * (id + 1)) / 1.2
-const Squadron = ({ name, speed, accel, id, index, total }) => {
-  const dispatch = useDispatch()
-  const handleDelete = (e) => {
-    try {
-      dispatch(deleteSquadron({ id: e.target.parentNode.id }))
-    } catch (err) {
-      console.error("Failed to delete the Squadron", err)
-    }
-  }
 
-  const handleUpdate = () => {
-    try {
-      dispatch(updateSquadron({ id: e.target.parentNode.id }))
-    } catch (err) {
-      console.error("Failed to update the Squadron", err)
-    }
+const getStartPosition = (total, id) => ((100 / total) * (id + 1)) / 1.2
+const Squadron = ({ name, speed, accel, id, index, total, callSquadron }) => {
+  const handleClick = (type) => {
+    callSquadron(id, name, speed, type)
   }
 
   return (
@@ -28,12 +14,12 @@ const Squadron = ({ name, speed, accel, id, index, total }) => {
       data-speed={`${speed}`}
       data-accel={`${accel}`}
     >
-      {name}
-      <button className="deleteButton" onClick={handleDelete}>
+      <div>{name}</div>
+      <button className="deleteButton" onClick={() => handleClick("delete")}>
         Remove
       </button>
-      <button className="updateButton" onClick={handleUpdate}>
-        Update
+      <button className="updateButton" onClick={() => handleClick("update")}>
+        {speed}
       </button>
     </div>
   )

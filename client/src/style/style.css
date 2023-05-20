@@ -120,6 +120,14 @@ h2 {
   align-self: center;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  z-index: 300;
+}
+
 .modal {
   position: fixed;
   top: 0;
