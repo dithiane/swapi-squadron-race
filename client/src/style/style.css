@@ -29,33 +29,6 @@ button {
   height: 30px;
 }
 
-#createNewStarShip {
-  display: none;
-  align-self: center;
-  flex-direction: column;
-  align-items: center;
-}
-
-.inputSpeed {
-  height: 30px;
-  position: absolute;
-  top: 187px;
-  width: 91px;
-}
-
-#toggleQuestion1,
-#toggleQuestion2 {
-  color: var(--light);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#toggleQuestion2 {
-  display: none;
-}
-
 .squadron {
   display: flex;
   justify-content: center;
@@ -120,12 +93,15 @@ h2 {
   align-self: center;
 }
 
-.controls {
+.controls-false {
   display: flex;
   justify-content: center;
   position: fixed;
   width: 100%;
   z-index: 300;
+}
+.controls-true {
+  display: hide;
 }
 
 .modal {

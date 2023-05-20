@@ -21,19 +21,18 @@ module.exports = {
                         squadron_id SERIAL PRIMARY KEY,
                         name VARCHAR,
                         speed INTEGER,
-                        acceleration NUMERIC
+                        weight NUMERIC
                     );
                     CREATE TABLE WINNER (
                         winner_id SERIAL PRIMARY KEY,
-                        name VARCHAR,
-                        speed INTEGER,
+                        times INTEGER,
                         squadron_id INT REFERENCES SQUADRON(squadron_id)
                     );
 
                     INSERT INTO SQUADRON (
                         name,
                         speed,
-                        acceleration
+                        weight
                     )
                     VALUES
                     ('CR90', 750, 3.6),
@@ -101,11 +100,31 @@ module.exports = {
                 res.status(500).send(err)
             })
     },
-    createSquadron: (req, res) => {
-        const { speed, name, acceleration } = req.body
+    updateWinner: (req, res) => {
+        const { id } = req.params
         sequelize.query(`
-            INSERT INTO squadron (name, speed, acceleration)
-            VALUES(${speed}, '${name}', ${acceleration});
+            UPDATE winner
+            SET times = times + 1
+            WHERE squadron_id = ${id};
+            SELECT *
+            FROM squadron
+            ORDER BY name
+        `)
+            .then(dbRes => {
+                res.status(200).send(dbRes[0])
+                console.log(dbRes[0])
+            })
+            .catch(err => {
+                console.log(`There was an error in deleteSquadron`, err)
+                res.status(500).send(err)
+            })
+    },
+    createSquadron: (req, res) => {
+        const { speed, name, weight } = req.body
+        console.log(speed, name, weight)
+        sequelize.query(`
+            INSERT INTO squadron (name, speed, weight)
+            VALUES('${name}', ${speed}, ${weight});
             SELECT *
             FROM squadron
             ORDER BY name

@@ -1,7 +1,7 @@
 import React from "react"
 
 const getStartPosition = (total, id) => ((100 / total) * (id + 1)) / 1.2
-const Squadron = ({ name, speed, accel, id, index, total, callSquadron }) => {
+const Squadron = ({ name, speed, weight, id, index, total, callSquadron }) => {
   const handleClick = (type) => {
     callSquadron(id, name, speed, type)
   }
@@ -12,7 +12,7 @@ const Squadron = ({ name, speed, accel, id, index, total, callSquadron }) => {
       style={{ left: `${getStartPosition(total, index)}%` }}
       id={id}
       data-speed={`${speed}`}
-      data-accel={`${accel}`}
+      data-weight={`${weight}`}
     >
       <div>{name}</div>
       <button className="deleteButton" onClick={() => handleClick("delete")}>

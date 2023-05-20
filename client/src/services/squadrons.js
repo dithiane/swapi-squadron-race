@@ -35,8 +35,9 @@ export const updateSquadron = createAsyncThunk(
 
 export const createSquadron = createAsyncThunk(
     'squadrons/create',
-    async () => {
-        const response = await axios.post(`${url}/squadrons/`, body)
+    async (initialPost) => {
+        const { name, speed, weight } = initialPost;
+        const response = await axios.post(`${url}/squadrons/`, { name, speed, weight })
         if (response?.status === 200) return response.data;
     })
 
@@ -64,6 +65,11 @@ export const squadronsSlice = createSlice({
             state.error = null
         })
         builder.addCase(updateSquadron.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null
+        })
+        builder.addCase(createSquadron.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
             state.error = null

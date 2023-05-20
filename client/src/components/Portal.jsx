@@ -8,9 +8,11 @@ const Modal = ({
   handleWinner,
   handleUpdate,
   handleDelete,
+  handleCreate,
 }) => {
+  const [name, setName] = useState(squadron?.name)
   const [speed, setSpeed] = useState(squadron?.speed)
-
+  const [weight, setWeight] = useState(squadron?.weight)
   const info = (text, handleWinner) => (
     <div className="modal-content-info">
       <h1>We have the Winner</h1>
@@ -51,6 +53,39 @@ const Modal = ({
     )
   }
 
+  const createSquadron = (squadron) => {
+    return (
+      <div className="modal-content-info">
+        <h1>Create the New Squadron</h1>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          placeholder="Name"
+          onInput={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          id="speed"
+          value={speed}
+          placeholder="Speed"
+          onInput={(e) => setSpeed(e.target.value)}
+        />
+        <input
+          type="text"
+          id="weight"
+          value={weight}
+          placeholder="Weight"
+          onInput={(e) => setWeight(e.target.value)}
+        />
+        <button onClick={(e) => handleCreate({ name, speed, weight })}>
+          Create
+        </button>
+        <button onClick={() => toggleModal(false)}>No</button>
+      </div>
+    )
+  }
+
   const deleteSquadron = (squadron) => {
     return (
       <div className="modal-content-info">
@@ -80,6 +115,7 @@ const Modal = ({
       case "update":
         return updateSquadron(squadron, handleUpdate)
       default:
+        return createSquadron(squadron, handleCreate)
         break
     }
   }

@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { SERVER_PORT } = process.env
-const { seed, getAllSquadrons, updateSquadron, deleteSquadron } = require('./controllers.js')
+const { seed, createSquadron, getAllSquadrons, updateSquadron, deleteSquadron } = require('./controllers.js')
 
 
 const express = require("express");
@@ -14,6 +14,7 @@ app.use(cors());
 
 // DEV
 app.post('/seed', seed)
+app.post('/squadrons', createSquadron)
 app.get('/squadrons', getAllSquadrons)
 app.put('/squadron/:id', updateSquadron)
 app.delete('/squadron/:id', deleteSquadron)

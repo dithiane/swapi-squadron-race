@@ -4,6 +4,7 @@ import {
   fetchSquadrons,
   deleteSquadron,
   updateSquadron,
+  createSquadron,
   selectData,
 } from "./src/services/squadrons"
 import { gsap } from "gsap"
@@ -14,6 +15,8 @@ const SCROLL_FINISH = 320
 const ACCELERATION_TO_FINISH = 200
 const MAX_SPEED = 3500
 const MIN_SPEED = 0
+const MIN_WEIGHT = 1
+const MAX_WEIGHT = 6
 
 const App = () => {
   const [starShips, setStarShips] = useState(null)
@@ -23,6 +26,7 @@ const App = () => {
   const [type, setType] = useState("start")
   const [squadron, setSquadron] = useState(null)
   const [yourStarShip, setYourStartShip] = useState(null)
+  const [direction, setDirection] = useState(true)
 
   const dispatch = useDispatch()
   const squadrons = useSelector(selectData)
@@ -31,6 +35,7 @@ const App = () => {
 
   const onScroll = () => {
     if (refSquadrons.current && !winner) {
+      console.log(direction)
       let sqArray = [...refSquadrons.current.childNodes]
       sqArray.some((el) => {
         let currentY = parseFloat(String(el.style.transform).split(",")[1])
@@ -75,7 +80,7 @@ const App = () => {
     1 -
     (parseFloat(el.getAttribute("data-speed")) /
       1000 /
-      (2 * el.getAttribute("data-accel"))) *
+      (2 * el.getAttribute("data-weight"))) *
       ScrollTrigger.maxScroll(window)
 
   useLayoutEffect(() => {
@@ -94,6 +99,10 @@ const App = () => {
             end: "top",
             invalidateOnRefresh: true,
             scrub: true,
+            onUpdate: (self) => {
+              if (self.direction === 1) setShowModal(true)
+              else setShowModal(false)
+            },
           },
         })
       })
@@ -110,7 +119,7 @@ const App = () => {
               : el.name
           }
           speed={el.speed}
-          accel={el.acceleration}
+          weight={el.weight}
           id={el.squadron_id}
           index={index}
           total={starShips.length}
@@ -147,19 +156,30 @@ const App = () => {
     setShowModal(false)
   }
 
-  const controlSpeed = (speed) => {
-    let currentSpeed = MAX_SPEED
-    if (speed <= MAX_SPEED) currentSpeed = speed
-    if (speed < MIN_SPEED) currentSpeed = MIN_SPEED
-    return currentSpeed
+  const controlParams = (param, min, max) => {
+    let currentParam = max
+    if (param <= max) currentSpeed = param
+    if (param <= max) currentSpeed = min
+    return currentParam
   }
 
   const handleUpdate = (id, currentSpeed) => {
-    const speed = controlSpeed(currentSpeed)
+    const speed = controlParams(currentSpeed, MIN_SPEED, MAX_SPEED)
     try {
       dispatch(updateSquadron({ id, speed }))
     } catch (err) {
       console.error("Failed to update the Squadron", err)
+    }
+    setShowModal(false)
+  }
+
+  const handleCreate = ({ name, currentSpeed, currentWeigh }) => {
+    const speed = controlParams(currentSpeed, MIN_SPEED, MAX_SPEED)
+    const weight = controlParams(currentWeigh, MIN_WEIGHT, MAX_WEIGHT)
+    try {
+      dispatch(createSquadron({ name, speed, weight }))
+    } catch (err) {
+      console.error("Failed to create the Squadron", err)
     }
     setShowModal(false)
   }
@@ -170,10 +190,17 @@ const App = () => {
     setYourStartShip({ id: randomId, name: `You` })
   }
 
+  const createNewSquadron = () => {
+    setType("create")
+    setShowModal(true)
+  }
+
   return (
     <>
-      <div className="controls">
-        <button>Create New Squadron</button>
+      <div className={`controls-${showModal}`}>
+        <button onClick={(e) => createNewSquadron(e)}>
+          Create New Squadron
+        </button>
         <button onClick={(e) => assignSquadron(e)}>Select Squadron</button>
       </div>
       {showModal ? (
@@ -186,6 +213,7 @@ const App = () => {
           handleWinner={handleWinner}
           handleUpdate={handleUpdate}
           handleDelete={handleDelete}
+          handleCreate={handleCreate}
         />
       ) : null}
       <div className="field" ref={ref}>
