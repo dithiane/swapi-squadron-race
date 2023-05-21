@@ -37,7 +37,6 @@ button {
   border: 50px solid transparent;
   border-top: 0;
   border-bottom: 100px solid var(--warmBlue);
-  background: linear-gradient(var(--lightBlue) 50%, var(--warmBlue) 50%);
   position: absolute;
   z-index: 100;
   line-height: 100px;
@@ -168,4 +167,8 @@ h2 {
   100% {
     transform: scale(1);
   }
+}
+
+.winners {
+  display: flex;
 }

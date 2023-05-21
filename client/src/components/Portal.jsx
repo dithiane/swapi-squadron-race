@@ -1,27 +1,28 @@
 import React, { useState } from "react"
 
 const Modal = ({
-  toggleModal,
   text,
   type,
   squadron,
-  handleWinner,
+  winners,
+  toggleModal,
   handleUpdate,
   handleDelete,
   handleCreate,
+  handleShow,
 }) => {
-  const [name, setName] = useState(squadron?.name)
-  const [speed, setSpeed] = useState(squadron?.speed)
-  const [weight, setWeight] = useState(squadron?.weight)
-  const info = (text, handleWinner) => (
+  const [name, setName] = useState(squadron ? squadron.name : "")
+  const [speed, setSpeed] = useState(squadron ? squadron.speed : "")
+  const [weight, setWeight] = useState(squadron ? squadron.weight : "")
+  const info = () => (
     <div className="modal-content-info">
       <h1>We have the Winner</h1>
       <h1>{text}</h1>
-      <button onClick={() => handleWinner(text)}>Close</button>
+      <button onClick={() => toggleModal()}>Close</button>
     </div>
   )
 
-  const start = (text, toggleModal) => {
+  const start = () => {
     return (
       <div className="modal-content-action">
         <div>
@@ -29,13 +30,13 @@ const Modal = ({
         </div>
         <p>{text}</p>
         <footer>
-          <button onClick={() => toggleModal(false)}>Play</button>
+          <button onClick={() => toggleModal()}>Play</button>
         </footer>
       </div>
     )
   }
 
-  const updateSquadron = (squadron) => {
+  const updateSquadron = () => {
     return (
       <div className="modal-content-info">
         <h1>{`Upgrade the ${squadron.name} speed`}</h1>
@@ -48,12 +49,12 @@ const Modal = ({
         <button onClick={(e) => handleUpdate(squadron.id, speed)}>
           Update
         </button>
-        <button onClick={() => toggleModal(false)}>No</button>
+        <button onClick={() => toggleModal()}>No</button>
       </div>
     )
   }
 
-  const createSquadron = (squadron) => {
+  const createSquadron = () => {
     return (
       <div className="modal-content-info">
         <h1>Create the New Squadron</h1>
@@ -81,49 +82,55 @@ const Modal = ({
         <button onClick={(e) => handleCreate({ name, speed, weight })}>
           Create
         </button>
-        <button onClick={() => toggleModal(false)}>No</button>
+        <button onClick={() => toggleModal()}>No</button>
       </div>
     )
   }
 
-  const deleteSquadron = (squadron) => {
+  const deleteSquadron = () => {
     return (
       <div className="modal-content-info">
         <h1>{`Are you sure want to delete the ${squadron.name}`}</h1>
         <button onClick={(e) => handleDelete(squadron.id)}>Yes</button>
-        <button onClick={() => toggleModal(false)}>No</button>
+        <button onClick={() => toggleModal()}>No</button>
       </div>
     )
   }
 
-  const cases = (
-    toggleModal,
-    text,
-    type,
-    squadron,
-    handleWinner,
-    handleUpdate,
-    handleDelete
-  ) => {
+  const showWinners = () => {
+    return (
+      <div className="modal-content-info">
+        <h1>Winners</h1>
+        {winners.map((el, index) => (
+          <div key={index} className="winners">
+            <h2>{el.name}</h2>
+            <h2>{el.times}</h2>
+          </div>
+        ))}
+        <button onClick={() => handleShow()}>Close</button>
+      </div>
+    )
+  }
+
+  const cases = () => {
     switch (type) {
       case "info":
-        return info(text, handleWinner)
+        return info()
       case "start":
-        return start(text, toggleModal)
+        return start()
       case "delete":
-        return deleteSquadron(squadron, handleDelete)
+        return deleteSquadron()
       case "update":
-        return updateSquadron(squadron, handleUpdate)
-      default:
-        return createSquadron(squadron, handleCreate)
-        break
+        return updateSquadron()
+      case "create":
+        return createSquadron()
+      case "show":
+        return showWinners()
     }
   }
   return (
     <div>
-      <div className="modal">
-        {cases(toggleModal, text, type, squadron, handleWinner, handleUpdate)}
-      </div>
+      <div className="modal">{cases()}</div>
     </div>
   )
 }

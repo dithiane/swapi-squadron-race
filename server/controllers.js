@@ -44,6 +44,20 @@ module.exports = {
                     ('Xwing', 1050, 3.2),
                     ('TIEAdvancedX1', 1200, 1.1);
 
+                    INSERT INTO WINNER (
+                        times,
+                        squadron_id
+                    )
+                    VALUES
+                    (0, 1),
+                    (0, 2),
+                    (0, 3),
+                    (0, 4),
+                    (0, 5),
+                    (0, 6),
+                    (0, 7),
+                    (0, 8);
+
         `).then(() => {
             console.log('DB seeded!')
             res.sendStatus(200)
@@ -62,9 +76,23 @@ module.exports = {
                 res.status(500).send(err)
             })
     },
+    getAllWinners: (req, res) => {
+        sequelize.query(`
+        SELECT name, times
+        FROM winner, squadron
+        WHERE winner.squadron_id = squadron.squadron_id AND times > 0
+        `)
+            .then(dbRes => res.status(200).send(dbRes[0]))
+            .catch(err => {
+                console.log(`There was an error in getAllWinners`, err)
+                res.status(500).send(err)
+            })
+    },
     deleteSquadron: (req, res) => {
         const { id } = req.params
         sequelize.query(`
+            DELETE FROM winner
+            WHERE squadron_id = ${id};
             DELETE FROM squadron
             WHERE squadron_id = ${id};
             SELECT *

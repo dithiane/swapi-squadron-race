@@ -15,6 +15,13 @@ export const fetchSquadrons = createAsyncThunk(
         return response.data;
     }
 );
+export const fetchWinners = createAsyncThunk(
+    'winners/fetch',
+    async () => {
+        const response = await axios.get(`${url}/winners`);
+        return response.data;
+    }
+);
 export const deleteSquadron = createAsyncThunk(
     'squadrons/delete',
     async (initialPost) => {
@@ -30,6 +37,15 @@ export const updateSquadron = createAsyncThunk(
         const { id, speed } = initialPost;
 
         const response = await axios.put(`${url}/squadron/${id}`, { speed })
+        if (response?.status === 200) return response.data;
+    })
+
+export const updateWinner = createAsyncThunk(
+    'winner/fetch',
+    async (initialPost) => {
+        const { id } = initialPost;
+
+        const response = await axios.put(`${url}/winner/${id}`)
         if (response?.status === 200) return response.data;
     })
 
@@ -59,12 +75,30 @@ export const squadronsSlice = createSlice({
             state.data = null;
             state.error = action.error;
         });
+        builder.addCase(fetchWinners.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(fetchWinners.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null;
+        });
+        builder.addCase(fetchWinners.rejected, (state, action) => {
+            state.loading = false;
+            state.data = null;
+            state.error = action.error;
+        });
         builder.addCase(deleteSquadron.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
             state.error = null
         })
         builder.addCase(updateSquadron.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+            state.error = null
+        })
+        builder.addCase(updateWinner.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
             state.error = null
