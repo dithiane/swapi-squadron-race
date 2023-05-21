@@ -174,6 +174,7 @@ const App = () => {
       console.error("Failed to update the Squadron", err)
     }
     toggleModal()
+    dispatch(fetchSquadrons())
   }
 
   const handleCreate = ({ name, speed, weight }) => {
@@ -226,7 +227,7 @@ const App = () => {
           text={refWinner.current?.firstChild.innerText}
           type={type}
           squadron={squadron}
-          winners={squadrons}
+          winners={type === "show" ? squadrons : []}
           toggleModal={toggleModal}
           handleUpdate={handleUpdate}
           handleDelete={handleDelete}

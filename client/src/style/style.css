@@ -100,7 +100,8 @@ h2 {
   z-index: 300;
 }
 .controls-true {
-  display: hide;
+  display: flex;
+  justify-content: center;
 }
 
 .modal {
@@ -117,8 +118,6 @@ h2 {
 }
 
 .modal-content-action {
-  width: 500px;
-  height: 500px;
   background-color: var(--blueTransparent);
   border-radius: 5px;
   padding: 20px;

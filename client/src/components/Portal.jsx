@@ -25,13 +25,8 @@ const Modal = ({
   const start = () => {
     return (
       <div className="modal-content-action">
-        <div>
-          <h1>Welcome to the SWAPI</h1>
-        </div>
-        <p>{text}</p>
-        <footer>
-          <button onClick={() => toggleModal()}>Play</button>
-        </footer>
+        <h1>Welcome to the swapi, the Star Wars API game</h1>
+        <button onClick={() => toggleModal()}>Play</button>
       </div>
     )
   }

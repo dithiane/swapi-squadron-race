@@ -153,6 +153,10 @@ module.exports = {
         sequelize.query(`
             INSERT INTO squadron (name, speed, weight)
             VALUES('${name}', ${speed}, ${weight});
+
+            INSERT INTO winner (squadron_id, times)
+            VALUES ((SELECT squadron_id FROM squadron WHERE name='${name}'), 0);
+
             SELECT *
             FROM squadron
             ORDER BY name
