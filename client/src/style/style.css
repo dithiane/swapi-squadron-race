@@ -20,6 +20,10 @@ button {
   position: absolute;
   top: 113px;
   width: 91px;
+  height: 30px;
+  border: none;
+  border-radius: 30px;
+  background-color: #601a1ae8;
 }
 
 .updateButton {
@@ -27,16 +31,26 @@ button {
   top: 143px;
   width: 91px;
   height: 30px;
+  border: none;
+  border-radius: 30px;
+}
+.name {
+  position: relative;
+  top: -63px;
+  white-space: nowrap;
 }
 
 .squadron {
   display: flex;
   justify-content: center;
-  width: 0;
-  height: 0;
   border: 50px solid transparent;
   border-top: 0;
   border-bottom: 100px solid var(--warmBlue);
+  background-image: url("../assets/star.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20px;
   position: absolute;
   z-index: 100;
   line-height: 100px;

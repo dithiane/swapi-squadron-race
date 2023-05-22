@@ -1,0 +1,21 @@
+@media (max-width: 1040px) {
+  .deleteButton,
+  .updateButton {
+    width: 60px;
+    font-size: xx-small;
+    padding: 0;
+  }
+
+  .squadron {
+    border: 30px solid transparent;
+  }
+
+  button {
+    height: 65px;
+  }
+
+  .deleteButton,
+  .updateButton {
+    height: 30px;
+  }
+}

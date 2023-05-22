@@ -26,6 +26,7 @@ const App = () => {
   const [type, setType] = useState("start")
   const [squadron, setSquadron] = useState(null)
   const [yourStarShip, setYourStartShip] = useState(null)
+  const [fieldWidth, setFieldWidth] = useState(window.innerWidth)
 
   const dispatch = useDispatch()
   const squadrons = useSelector(selectData)
@@ -33,9 +34,13 @@ const App = () => {
   const refSquadrons = useRef(null)
   const refTop = useRef(null)
   const refWinner = useRef(null)
+  const refAction = useRef(false)
 
-  const deleteWinner = (el) => {
-    el.parentElement.removeChild(el)
+  const setStart = () => {
+    if (refSquadrons.current) {
+      let sqArray = [...refSquadrons.current.childNodes]
+      sqArray.forEach((el) => gsap.to(el, { y: "0px" }))
+    }
   }
 
   const pushWinner = (el) => {
@@ -43,21 +48,14 @@ const App = () => {
     setType("info")
     toggleModal()
     saveWinner(el.id)
-    deleteWinner(el)
   }
 
   const scrollToTop = () => {
     refTop.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const runAllPostActions = (el) => {
-    toggleModal()
-    dispatch(fetchSquadrons())
-    addActionTo()
-    scrollToTop()
-  }
-
-  const onWheel = (e) => {
+  const onScroll = (e) => {
+    if (!refAction.current) addAction()
     if (e.deltaY > 0) {
       if (refSquadrons.current && !refWinner.current) {
         let sqArray = [...refSquadrons.current.childNodes]
@@ -71,13 +69,26 @@ const App = () => {
     }
   }
 
+  const onResize = () => {
+    const windowsWidth =
+      window.innerWidth && document.documentElement.clientWidth
+        ? Math.min(window.innerWidth, document.documentElement.clientWidth)
+        : window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.getElementsByTagName("body")[0].clientWidth
+    setFieldWidth(windowsWidth)
+    scrollToTop()
+  }
+
   useEffect(() => {
-    window.addEventListener("wheel", onWheel)
+    window.addEventListener("wheel", onScroll)
+    window.addEventListener("resize", onResize)
 
     scrollToTop()
 
     return () => {
-      window.removeEventListener("onWheel", onWheel)
+      window.removeEventListener("wheel", onScroll)
+      window.removeEventListener("resize", onResize)
     }
   }, [])
 
@@ -98,17 +109,15 @@ const App = () => {
     }
   }
 
-  const getY = (el) =>
-    1 -
-    parseFloat(el.getAttribute("data-speed")) /
-      parseFloat(el.getAttribute("data-weight"))
+  const getY = (el) => {
+    const speed = el.getAttribute("data-speed")
+    const weight = el.getAttribute("data-weight")
+    if (speed === 0) return speed
+    return 1 - speed / weight
+  }
 
   const addAction = () => {
     if (refSquadrons.current) {
-      gsap.set(".squadron", {
-        borderBottom:
-          "100px solid rgb(random(0,190), random(0,190), random(0,1)",
-      })
       gsap.utils.toArray("[data-speed]").forEach((el) => {
         gsap.to(el, {
           y: () => getY(el),
@@ -118,36 +127,36 @@ const App = () => {
             start: "-=500",
             end: "top",
             invalidateOnRefresh: true,
-            scrub: true,
+            scrub: false,
           },
         })
       })
     }
+    refAction.current = true
   }
-  const addActionTo = () => {
-    if (refSquadrons.current && squadron) {
+
+  const addColorTo = (id) => {
+    if (refSquadrons.current) {
       const sqArray = [...refSquadrons.current.childNodes]
-      const el = sqArray.find((el) => el.id == squadron.id)
+      const el = sqArray[id]
       gsap.set(el, {
         borderBottom:
           "100px solid rgb(random(0,190), random(0,190), random(0,1)",
       })
+    }
+  }
 
-      gsap.to(el, {
-        y: () => getY(el),
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "-=500",
-          end: "top",
-          invalidateOnRefresh: true,
-          scrub: true,
-        },
+  const addColorToAll = () => {
+    if (refSquadrons.current) {
+      gsap.set(".squadron", {
+        borderBottom:
+          "100px solid rgb(random(0,190), random(0,190), random(0,1)",
       })
     }
   }
 
   useEffect(() => {
+    addColorToAll()
     addAction()
   }, [deployed, starShips])
 
@@ -156,9 +165,10 @@ const App = () => {
       {starShips.map((el, index) => (
         <Squadron
           key={index}
+          fieldWidth={fieldWidth}
           name={
             yourStarShip && yourStarShip.id === index
-              ? yourStarShip.name
+              ? `${el.name} -> ${yourStarShip.name}`
               : el.name
           }
           speed={el.speed}
@@ -173,8 +183,7 @@ const App = () => {
   )
 
   useEffect(() => {
-    if (!showModal && !refWinner.current && type !== "show")
-      dispatch(fetchSquadrons())
+    if (!showModal && !refWinner.current) dispatch(fetchSquadrons())
   }, [showModal])
 
   const sendSquadronToAction = (id, name, speed, type) => {
@@ -199,7 +208,7 @@ const App = () => {
     e.preventDefault()
     const randomId = Math.floor(Math.random() * starShips.length)
     setYourStartShip({ id: randomId, name: `You` })
-    dispatch(fetchSquadrons())
+    addColorTo(randomId)
   }
 
   const toggleModal = () => {
@@ -220,7 +229,8 @@ const App = () => {
     } catch (err) {
       console.error("Failed to update the Squadron", err)
     }
-    runAllPostActions()
+    toggleModal()
+    resetActions()
   }
 
   const handleDelete = (id) => {
@@ -229,7 +239,8 @@ const App = () => {
     } catch (err) {
       console.error("Failed to delete the Squadron", err)
     }
-    runAllPostActions()
+    toggleModal()
+    resetActions()
   }
 
   const handleCreate = ({ name, speed, weight }) => {
@@ -240,11 +251,24 @@ const App = () => {
     } catch (err) {
       console.error("Failed to create the Squadron", err)
     }
-    runAllPostActions()
+    toggleModal()
+    resetActions()
   }
 
   const handleShow = () => {
-    runAllPostActions()
+    toggleModal()
+    resetActions()
+  }
+
+  const playAgain = () => {
+    resetActions()
+  }
+
+  const resetActions = () => {
+    refWinner.current = null
+    refAction.current = false
+    scrollToTop()
+    setStart()
   }
 
   return (
@@ -256,7 +280,9 @@ const App = () => {
         </button>
         <button onClick={(e) => showWinners(e)}>Show Winners</button>
         <button onClick={(e) => assignSquadron(e)}>Select Squadron</button>
+        <button onClick={(e) => playAgain()}>Play again</button>
       </div>
+
       {showModal ? (
         <Modal
           className="fade-up"

@@ -1,7 +1,7 @@
 import React from "react"
 
-const getStartPosition = (total, id) => (100 / total) * (id + 1) - 14
 const Squadron = ({
+  fieldWidth,
   name,
   speed,
   weight,
@@ -10,6 +10,18 @@ const Squadron = ({
   total,
   sendSquadronToAction,
 }) => {
+  const layoutDim = (width) => {
+    if (width > 1024) return 3
+    else if (width <= 1024) return 6
+    else if (width <= 300) return 7
+  }
+
+  const getStartPosition = () => {
+    const w = fieldWidth / total
+    const dim = layoutDim(fieldWidth)
+    let left = w * index + w / dim
+    return left
+  }
   const handleClick = (type) => {
     sendSquadronToAction(id, name, speed, type)
   }
@@ -17,18 +29,29 @@ const Squadron = ({
   return (
     <div
       className={`squadron ship-${id}`}
-      style={{ left: `${getStartPosition(total, index)}%` }}
+      style={{ left: `${getStartPosition()}px` }}
       id={id}
       data-speed={`${speed}`}
       data-weight={`${weight}`}
     >
-      <div>{name}</div>
-      <button className="deleteButton" onClick={() => handleClick("delete")}>
-        Remove
-      </button>
-      <button className="updateButton" onClick={() => handleClick("update")}>
-        {speed}
-      </button>
+      <div className="name">{name}</div>
+
+      {speed !== undefined ? (
+        <>
+          <button
+            className="updateButton"
+            onClick={() => handleClick("update")}
+          >
+            {speed}
+          </button>
+          <button
+            className="deleteButton"
+            onClick={() => handleClick("delete")}
+          >
+            Remove
+          </button>{" "}
+        </>
+      ) : null}
     </div>
   )
 }

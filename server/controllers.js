@@ -78,7 +78,7 @@ module.exports = {
     },
     getAllWinners: (req, res) => {
         sequelize.query(`
-        SELECT name, times
+        SELECT name, times, speed
         FROM winner, squadron
         WHERE winner.squadron_id = squadron.squadron_id AND times > 0
         `)
