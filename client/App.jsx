@@ -42,24 +42,19 @@ const App = () => {
     refWinner.current = el
     setType("info")
     toggleModal()
-    //saveWinner(el.id)
+    saveWinner(el.id)
     deleteWinner(el)
   }
 
-  // const onScroll = () => {
-  //   if (refSquadrons.current && !refWinner.current) {
-  //     let sqArray = [...refSquadrons.current.childNodes]
-  //     sqArray.some((el) => {
-  //       if (!ScrollTrigger.isInViewport(el, 0.2)) {
-  //         setOutViewPort(el)
-  //         return true
-  //       }
-  //     })
-  //   }
-  // }
-
   const scrollToTop = () => {
     refTop.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const runAllPostActions = (el) => {
+    toggleModal()
+    dispatch(fetchSquadrons())
+    addActionTo()
+    scrollToTop()
   }
 
   const onWheel = (e) => {
@@ -77,13 +72,11 @@ const App = () => {
   }
 
   useEffect(() => {
-    //window.addEventListener("scroll", onScroll)
     window.addEventListener("wheel", onWheel)
 
     scrollToTop()
 
     return () => {
-      //window.removeEventListener("scroll", onScroll)
       window.removeEventListener("onWheel", onWheel)
     }
   }, [])
@@ -126,14 +119,34 @@ const App = () => {
             end: "top",
             invalidateOnRefresh: true,
             scrub: true,
-            // onUpdate: (self) => {
-            //   if (self.direction === 1 && outViewPort) pushWinner(outViewPort)
-            // },
           },
         })
       })
     }
   }
+  const addActionTo = () => {
+    if (refSquadrons.current && squadron) {
+      const sqArray = [...refSquadrons.current.childNodes]
+      const el = sqArray.find((el) => el.id == squadron.id)
+      gsap.set(el, {
+        borderBottom:
+          "100px solid rgb(random(0,190), random(0,190), random(0,1)",
+      })
+
+      gsap.to(el, {
+        y: () => getY(el),
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "-=500",
+          end: "top",
+          invalidateOnRefresh: true,
+          scrub: true,
+        },
+      })
+    }
+  }
+
   useEffect(() => {
     addAction()
   }, [deployed, starShips])
@@ -153,38 +166,44 @@ const App = () => {
           id={el.squadron_id}
           index={index}
           total={starShips.length}
-          callSquadron={callSquadron}
+          sendSquadronToAction={sendSquadronToAction}
         />
       ))}
     </div>
   )
 
   useEffect(() => {
-    if (!showModal && !refWinner.current) dispatch(fetchSquadrons())
-    // if (!showModal) {
-    //   if (refWinner.current) refWinner.current = null
-    //   else dispatch(fetchSquadrons())
-    // }
+    if (!showModal && !refWinner.current && type !== "show")
+      dispatch(fetchSquadrons())
   }, [showModal])
 
-  const callSquadron = (id, name, speed, type) => {
+  const sendSquadronToAction = (id, name, speed, type) => {
     setSquadron({ id, name, speed })
     setType(type)
     toggleModal()
   }
 
-  const toggleModal = () => {
-    setShowModal((prev) => !prev)
+  const createNewSquadron = () => {
+    setSquadron(null)
+    setType("create")
+    toggleModal()
   }
 
-  const handleDelete = (id) => {
-    try {
-      dispatch(deleteSquadron({ id }))
-    } catch (err) {
-      console.error("Failed to delete the Squadron", err)
-    }
+  const showWinners = () => {
+    dispatch(fetchWinners())
+    setType("show")
     toggleModal()
-    addAction()
+  }
+
+  const assignSquadron = (e) => {
+    e.preventDefault()
+    const randomId = Math.floor(Math.random() * starShips.length)
+    setYourStartShip({ id: randomId, name: `You` })
+    dispatch(fetchSquadrons())
+  }
+
+  const toggleModal = () => {
+    setShowModal((prev) => !prev)
   }
 
   const controlParams = (param, min, max) => {
@@ -201,8 +220,16 @@ const App = () => {
     } catch (err) {
       console.error("Failed to update the Squadron", err)
     }
-    toggleModal()
-    addAction()
+    runAllPostActions()
+  }
+
+  const handleDelete = (id) => {
+    try {
+      dispatch(deleteSquadron({ id }))
+    } catch (err) {
+      console.error("Failed to delete the Squadron", err)
+    }
+    runAllPostActions()
   }
 
   const handleCreate = ({ name, speed, weight }) => {
@@ -213,33 +240,11 @@ const App = () => {
     } catch (err) {
       console.error("Failed to create the Squadron", err)
     }
-    toggleModal()
-    addAction()
-  }
-
-  const assignSquadron = (e) => {
-    e.preventDefault()
-    const randomId = Math.floor(Math.random() * starShips.length)
-    setYourStartShip({ id: randomId, name: `You` })
-  }
-
-  const createNewSquadron = () => {
-    setType("create")
-    setSquadron(null)
-    toggleModal()
-  }
-
-  const showWinners = () => {
-    dispatch(fetchWinners())
-    setType("show")
-    toggleModal()
-    addAction()
+    runAllPostActions()
   }
 
   const handleShow = () => {
-    toggleModal()
-    dispatch(fetchSquadrons())
-    addAction()
+    runAllPostActions()
   }
 
   return (

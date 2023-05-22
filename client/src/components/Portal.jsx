@@ -74,7 +74,7 @@ const Modal = ({
           placeholder="Weight"
           onInput={(e) => setWeight(e.target.value)}
         />
-        <button onClick={(e) => handleCreate({ name, speed, weight })}>
+        <button onClick={() => handleCreate({ name, speed, weight })}>
           Create
         </button>
         <button onClick={() => toggleModal()}>No</button>

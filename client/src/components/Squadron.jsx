@@ -1,9 +1,17 @@
 import React from "react"
 
 const getStartPosition = (total, id) => (100 / total) * (id + 1) - 14
-const Squadron = ({ name, speed, weight, id, index, total, callSquadron }) => {
+const Squadron = ({
+  name,
+  speed,
+  weight,
+  id,
+  index,
+  total,
+  sendSquadronToAction,
+}) => {
   const handleClick = (type) => {
-    callSquadron(id, name, speed, type)
+    sendSquadronToAction(id, name, speed, type)
   }
 
   return (
