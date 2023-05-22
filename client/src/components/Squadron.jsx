@@ -1,6 +1,6 @@
 import React from "react"
 
-const getStartPosition = (total, id) => ((100 / total) * (id + 1)) / 1.2
+const getStartPosition = (total, id) => (100 / total) * (id + 1) - 14
 const Squadron = ({ name, speed, weight, id, index, total, callSquadron }) => {
   const handleClick = (type) => {
     callSquadron(id, name, speed, type)

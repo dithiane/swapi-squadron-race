@@ -13,6 +13,7 @@ import { gsap } from "gsap"
 import Modal from "./src/components/Portal"
 import Squadron from "./src/components/Squadron"
 gsap.registerPlugin(ScrollTrigger)
+
 const MAX_SPEED = 3500
 const MIN_SPEED = 0
 const MIN_WEIGHT = 1
@@ -41,35 +42,49 @@ const App = () => {
     refWinner.current = el
     setType("info")
     toggleModal()
-    saveWinner(el.id)
-    //deleteWinner(el)
+    //saveWinner(el.id)
+    deleteWinner(el)
   }
 
-  const onScroll = () => {
-    if (refSquadrons.current && !refWinner.current) {
-      let sqArray = [...refSquadrons.current.childNodes]
-      sqArray.some((el) => {
-        if (!ScrollTrigger.isInViewport(el, 0.2)) {
-          pushWinner(el)
-          console.log(el)
-          return true
-        }
-      })
-    }
-  }
+  // const onScroll = () => {
+  //   if (refSquadrons.current && !refWinner.current) {
+  //     let sqArray = [...refSquadrons.current.childNodes]
+  //     sqArray.some((el) => {
+  //       if (!ScrollTrigger.isInViewport(el, 0.2)) {
+  //         setOutViewPort(el)
+  //         return true
+  //       }
+  //     })
+  //   }
+  // }
 
   const scrollToTop = () => {
     refTop.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  const onWheel = (e) => {
+    if (e.deltaY > 0) {
+      if (refSquadrons.current && !refWinner.current) {
+        let sqArray = [...refSquadrons.current.childNodes]
+        sqArray.some((el) => {
+          if (!ScrollTrigger.isInViewport(el, 0.2)) {
+            pushWinner(el)
+            return true
+          }
+        })
+      }
+    }
+  }
+
   useEffect(() => {
-    window.removeEventListener("scroll", onScroll)
-    window.addEventListener("scroll", onScroll, { passive: true })
+    //window.addEventListener("scroll", onScroll)
+    window.addEventListener("wheel", onWheel)
 
     scrollToTop()
 
     return () => {
-      window.removeEventListener("scroll", onScroll)
+      //window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("onWheel", onWheel)
     }
   }, [])
 
@@ -95,27 +110,33 @@ const App = () => {
     parseFloat(el.getAttribute("data-speed")) /
       parseFloat(el.getAttribute("data-weight"))
 
-  if (refSquadrons.current) {
-    gsap.set(".squadron", {
-      borderBottom: "100px solid rgb(random(0,190), random(0,190), random(0,1)",
-    })
-    gsap.utils.toArray("[data-speed]").forEach((el) => {
-      gsap.to(el, {
-        y: () => getY(el),
-        ease: "none",
-        scrollTrigger: {
-          trigger: el,
-          start: "-=500",
-          end: "top",
-          invalidateOnRefresh: true,
-          scrub: true,
-          onUpdate: (self) => {
-            if (self.direction === -1) setShowModal(false)
-          },
-        },
+  const addAction = () => {
+    if (refSquadrons.current) {
+      gsap.set(".squadron", {
+        borderBottom:
+          "100px solid rgb(random(0,190), random(0,190), random(0,1)",
       })
-    })
+      gsap.utils.toArray("[data-speed]").forEach((el) => {
+        gsap.to(el, {
+          y: () => getY(el),
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "-=500",
+            end: "top",
+            invalidateOnRefresh: true,
+            scrub: true,
+            // onUpdate: (self) => {
+            //   if (self.direction === 1 && outViewPort) pushWinner(outViewPort)
+            // },
+          },
+        })
+      })
+    }
   }
+  useEffect(() => {
+    addAction()
+  }, [deployed, starShips])
 
   const deploySquadrons = () => (
     <div ref={refSquadrons}>
@@ -140,6 +161,10 @@ const App = () => {
 
   useEffect(() => {
     if (!showModal && !refWinner.current) dispatch(fetchSquadrons())
+    // if (!showModal) {
+    //   if (refWinner.current) refWinner.current = null
+    //   else dispatch(fetchSquadrons())
+    // }
   }, [showModal])
 
   const callSquadron = (id, name, speed, type) => {
@@ -148,7 +173,9 @@ const App = () => {
     toggleModal()
   }
 
-  const toggleModal = () => setShowModal((prev) => !prev)
+  const toggleModal = () => {
+    setShowModal((prev) => !prev)
+  }
 
   const handleDelete = (id) => {
     try {
@@ -157,6 +184,7 @@ const App = () => {
       console.error("Failed to delete the Squadron", err)
     }
     toggleModal()
+    addAction()
   }
 
   const controlParams = (param, min, max) => {
@@ -174,7 +202,7 @@ const App = () => {
       console.error("Failed to update the Squadron", err)
     }
     toggleModal()
-    dispatch(fetchSquadrons())
+    addAction()
   }
 
   const handleCreate = ({ name, speed, weight }) => {
@@ -186,6 +214,7 @@ const App = () => {
       console.error("Failed to create the Squadron", err)
     }
     toggleModal()
+    addAction()
   }
 
   const assignSquadron = (e) => {
@@ -204,11 +233,13 @@ const App = () => {
     dispatch(fetchWinners())
     setType("show")
     toggleModal()
+    addAction()
   }
 
   const handleShow = () => {
     toggleModal()
     dispatch(fetchSquadrons())
+    addAction()
   }
 
   return (
