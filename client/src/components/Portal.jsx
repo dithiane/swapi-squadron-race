@@ -41,10 +41,15 @@ const Modal = ({
           value={speed}
           onInput={(e) => setSpeed(e.target.value)}
         />
-        <button onClick={(e) => handleUpdate(squadron.id, speed)}>
+        <button
+          className="action"
+          onClick={(e) => handleUpdate(squadron.id, speed)}
+        >
           Update
         </button>
-        <button onClick={() => toggleModal()}>No</button>
+        <button className="action" onClick={() => toggleModal()}>
+          No
+        </button>
       </div>
     )
   }
@@ -74,10 +79,15 @@ const Modal = ({
           placeholder="Weight"
           onInput={(e) => setWeight(e.target.value)}
         />
-        <button onClick={() => handleCreate({ name, speed, weight })}>
+        <button
+          className="action"
+          onClick={() => handleCreate({ name, speed, weight })}
+        >
           Create
         </button>
-        <button onClick={() => toggleModal()}>No</button>
+        <button className="action" onClick={() => toggleModal()}>
+          No
+        </button>
       </div>
     )
   }
@@ -86,8 +96,12 @@ const Modal = ({
     return (
       <div className="modal-content-info">
         <h1>{`Are you sure want to delete the ${squadron.name}`}</h1>
-        <button onClick={(e) => handleDelete(squadron.id)}>Yes</button>
-        <button onClick={() => toggleModal()}>No</button>
+        <button className="action" onClick={(e) => handleDelete(squadron.id)}>
+          Yes
+        </button>
+        <button className="action" onClick={() => toggleModal()}>
+          No
+        </button>
       </div>
     )
   }

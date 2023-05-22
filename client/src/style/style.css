@@ -1,8 +1,7 @@
 @import "global.css";
 
-.inputs {
-  display: flex;
-  flex-direction: column;
+input {
+  padding: 8px;
 }
 
 button {
@@ -14,6 +13,10 @@ button {
   color: var(--light);
   cursor: pointer;
   z-index: 10;
+}
+
+.action {
+  margin: 10px 10px 0;
 }
 
 .deleteButton {
@@ -45,7 +48,7 @@ button {
   justify-content: center;
   border: 50px solid transparent;
   border-top: 0;
-  border-bottom: 100px solid var(--warmBlue);
+  border-bottom: 100px solid transparent;
   background-image: url("../assets/star.svg");
   background-position: center;
   background-repeat: no-repeat;
