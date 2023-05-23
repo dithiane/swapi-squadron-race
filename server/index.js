@@ -8,8 +8,7 @@ const cors = require("cors");
 const app = express();
 
 //middleware
-//app.use(express.json());
-//app.use('/dist', express.static(__dirname));
+app.use(express.json());
 
 app.use(cors());
 
@@ -23,7 +22,7 @@ app.put('/winner/:id', updateWinner)
 app.delete('/squadron/:id', deleteSquadron)
 
 app.listen(SERVER_PORT, () => console.log("Server running on 4000"));
-app.use(express.static(__dirname + '/dist'));
+// app.use(express.static(__dirname + '/dist'));
 
 
 
