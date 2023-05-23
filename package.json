@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "dev": "concurrently 'vite client' 'nodemon server/index.js'",
+    "dev": "concurrently 'vite' 'nodemon server/index.js'",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "serve": "vite preview"

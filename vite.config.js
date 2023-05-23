@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 import svgx from "@svgx/vite-plugin-react";
 
 
@@ -10,9 +11,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: "./client/index.html"
+        client: resolve(__dirname, 'index.html'),
       },
     },
+    outDir: "build",
   },
 })
 
