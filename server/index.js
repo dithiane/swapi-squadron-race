@@ -10,9 +10,7 @@ const app = express();
 
 //Middleware
 app.use(express.json());
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'))
-})
+app.use(express.static(__dirname + '/public'));
 
 app.use(cors());
 
