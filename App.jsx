@@ -124,7 +124,7 @@ const App = () => {
           ease: "none",
           scrollTrigger: {
             trigger: el,
-            start: "-=500",
+            start: "-=300",
             end: "top",
             invalidateOnRefresh: true,
             scrub: false,
