@@ -9,12 +9,12 @@ export default defineConfig({
   plugins: [react(), svgx()],
 
   build: {
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        client: resolve(__dirname, 'index.html'),
+        main: resolve(__dirname, 'index.html'),
       },
-    },
-    outDir: "build",
+    }
   },
 })
 

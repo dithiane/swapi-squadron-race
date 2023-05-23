@@ -4,10 +4,11 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "dev": "concurrently 'vite' 'nodemon server/index.js'",
+    "dev": "vite",
     "build": "vite build",
-    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "serve": "vite preview"
+    "preview": "vite preview",
+    "host": "vite --host",
+    "start": "node server/index.js"
   },
   "keywords": [],
   "author": "",
