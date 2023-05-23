@@ -7,7 +7,7 @@ const initialState = {
 };
 
 //const URL = 'http://18.204.19.56'
-// const URL = 'http://localhost:4000'
+//const URL = 'http://localhost:4000'
 
 export const fetchSquadrons = createAsyncThunk(
     'squadrons/fetch',
