@@ -9,7 +9,7 @@ const path = require('path')
 const app = express();
 
 //Middleware
-app.use(express.static('/public/index.html'));
+app.use(express.static(__dirname + '/public'));
 
 app.use(cors());
 
