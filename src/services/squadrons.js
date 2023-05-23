@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 
-const url = `http://localhost:4000`;
+//const url = `http://localhost:4000`;
 
 const initialState = {
     loading: false,
@@ -11,14 +11,14 @@ const initialState = {
 export const fetchSquadrons = createAsyncThunk(
     'squadrons/fetch',
     async () => {
-        const response = await axios.get(`${url}/squadrons`);
+        const response = await axios.get(`/squadrons`);
         return response.data;
     }
 );
 export const fetchWinners = createAsyncThunk(
     'winners/fetch',
     async () => {
-        const response = await axios.get(`${url}/winners`);
+        const response = await axios.get(`/winners`);
         return response.data;
     }
 );
@@ -27,7 +27,7 @@ export const deleteSquadron = createAsyncThunk(
     async (initialPost) => {
         const { id } = initialPost;
 
-        const response = await axios.delete(`${url}/squadron/${id}`)
+        const response = await axios.delete(`/squadron/${id}`)
         if (response?.status === 200) return response.data;
     })
 
@@ -36,7 +36,7 @@ export const updateSquadron = createAsyncThunk(
     async (initialPost) => {
         const { id, speed } = initialPost;
 
-        const response = await axios.put(`${url}/squadron/${id}`, { speed })
+        const response = await axios.put(`/squadron/${id}`, { speed })
         if (response?.status === 200) return response.data;
     })
 
@@ -45,7 +45,7 @@ export const updateWinner = createAsyncThunk(
     async (initialPost) => {
         const { id } = initialPost;
 
-        const response = await axios.put(`${url}/winner/${id}`)
+        const response = await axios.put(`/winner/${id}`)
         if (response?.status === 200) return response.data;
     })
 
@@ -53,7 +53,7 @@ export const createSquadron = createAsyncThunk(
     'squadrons/create',
     async (initialPost) => {
         const { name, speed, weight } = initialPost;
-        const response = await axios.post(`${url}/squadrons/`, { name, speed, weight })
+        const response = await axios.post(`/squadrons/`, { name, speed, weight })
         if (response?.status === 200) return response.data;
     })
 
