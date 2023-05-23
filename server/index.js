@@ -22,7 +22,7 @@ app.put('/winner/:id', updateWinner)
 app.delete('/squadron/:id', deleteSquadron)
 
 app.listen(SERVER_PORT, () => console.log("Server running on 4000"));
-// app.use(express.static(__dirname + '/dist'));
+
 
 
 
