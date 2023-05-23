@@ -10,6 +10,7 @@ import {
   selectData,
 } from "./src/services/squadrons"
 import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Modal from "./src/components/Portal"
 import Squadron from "./src/components/Squadron"
 gsap.registerPlugin(ScrollTrigger)
