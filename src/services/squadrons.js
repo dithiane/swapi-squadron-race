@@ -38,8 +38,8 @@ export const updateSquadron = createAsyncThunk(
     'squadrons/update',
     async (initialPost) => {
         const { id, speed } = initialPost;
-        //const response = await axios.put(`${URL}/squadron/${id}`, { speed })
-        const response = await axios.put(`/squadron/${id}`, { speed })
+        const response = await axios.put(`${URL}/squadron/${id}`, { speed })
+        //const response = await axios.put(`/squadron/${id}`, { speed })
         if (response?.status === 200) return response.data;
     })
 

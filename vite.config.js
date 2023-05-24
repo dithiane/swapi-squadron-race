@@ -12,8 +12,9 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        main: resolve(__dirname, './main.jsx'),
+        main: resolve(__dirname, './index.html'),
       },
+
     },
 
   },
