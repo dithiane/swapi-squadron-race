@@ -49,7 +49,7 @@ const Squadron = ({
             onClick={() => handleClick("delete")}
           >
             Remove
-          </button>{" "}
+          </button>
         </>
       ) : null}
     </div>

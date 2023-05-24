@@ -1,5 +1,21 @@
 @import "global.css";
 
+#space {
+  perspective: 200px;
+  position: relative;
+  background: #000;
+  width: 100%;
+}
+
+.dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 input {
   padding: 8px;
 }
@@ -172,19 +188,24 @@ h2 {
   cursor: pointer;
 }
 
-.fade-up {
-  animation: blowUp 0.4s ease-in-out;
-}
-
-@keyframes blowUp {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .winners {
   display: flex;
+}
+
+footer {
+  position: fixed;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  color: var(--light);
+  align-items: center;
+  width: 100%;
+}
+
+.github {
+  text-decoration: none;
+}
+
+.github:visited {
+  color: var(--light);
 }

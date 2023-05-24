@@ -77,12 +77,35 @@ const App = () => {
           document.documentElement.clientWidth ||
           document.getElementsByTagName("body")[0].clientWidth
     setFieldWidth(windowsWidth)
+    getParticlesAnimation()
     scrollToTop()
+  }
+
+  const getParticlesAnimation = () => {
+    let i = 500
+
+    while (--i > -1) {
+      let dot = document.createElement("div")
+      let dotContainer = document.getElementById("space")
+      dot.className = "dot"
+      dotContainer.append(dot)
+      gsap.to(dot, {
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        z: Math.random() * Math.PI * 1000,
+      })
+      gsap.to(dot, {
+        duration: 100,
+        z: 100,
+      })
+    }
   }
 
   useEffect(() => {
     window.addEventListener("wheel", onScroll)
     window.addEventListener("resize", onResize)
+
+    getParticlesAnimation()
 
     scrollToTop()
 
@@ -300,6 +323,11 @@ const App = () => {
       <div className="field" ref={ref}>
         {starShips ? deploySquadrons() : null}
       </div>
+      <footer>
+        <a className="github" href="https://github.com/dithiane">
+          @ 2023 Dithiane
+        </a>
+      </footer>
     </>
   )
 }
