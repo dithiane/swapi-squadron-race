@@ -64,4 +64,9 @@ git clone https://github.com/dithiane/swapi-squadron-race.git</p><ul>
 <li>2.Run the application: npm run dev</li>
 </ul>
 
-<a href="Link to the video presentation https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a>
+<p>Check it out:
+<ul>
+<li><a href="./prep/intro.png">Intro</a></li>
+<li><a href="./prep/game.png">Game</a></li>
+<li><a href="Link to the video presentation https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a></li>
+</ul>
