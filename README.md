@@ -6,9 +6,7 @@
 
 <ul>
 <li>HTML</li>
-</ul><ul>
 <li>CSS</li>
-</ul><ul>
 <li>JavaScript</li>
 </ul><ul>
 <li>React</li>
@@ -39,13 +37,8 @@
 <li>Interactive features like buttons, scroll, graphic elements</li>
 </ul><ul>
 <li>Communicates with server in a redux by dispatch for make requests, store app state for display data</li>
-<li>Includes global, local, responsive styles</li>
-</ul>
-<p>Clone the project:
-git clone https://github.com/dithiane/swapi-squadron-race.git</p><h5>Steps</h5><ul>
-<li>1.Install the dependencies: npm i</li>
 </ul><ul>
-<li>2.Run the application: npm run dev</li>
+<li>Includes global, local, responsive styles</li>
 </ul>
 
 <h2>Server</h2>
@@ -68,5 +61,5 @@ git clone https://github.com/dithiane/swapi-squadron-race.git</p><ul>
 <ul>
 <li><a href="./prep/intro.png">Intro</a></li>
 <li><a href="./prep/game.png">Game</a></li>
-<li><a href="Link to the video presentation https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a></li>
+<li><a href="https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a></li>
 </ul>
