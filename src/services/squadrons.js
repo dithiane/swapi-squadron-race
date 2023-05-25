@@ -7,21 +7,21 @@ const initialState = {
 };
 
 //const URL = 'http://18.204.19.56'
-//const URL = 'http://localhost:4000'
+const URL = 'http://localhost:4000'
 
 export const fetchSquadrons = createAsyncThunk(
     'squadrons/fetch',
     async () => {
-        //const response = await axios.get(`${URL}/squadrons`);
-        const response = await axios.get(`/squadrons`);
+        const response = await axios.get(`${URL}/squadrons`);
+        //const response = await axios.get(`/squadrons`);
         return response.data;
     }
 );
 export const fetchWinners = createAsyncThunk(
     'winners/fetch',
     async () => {
-        //const response = await axios.get(`${URL}/winners`);
-        const response = await axios.get(`/winners`);
+        const response = await axios.get(`${URL}/winners`);
+        //const response = await axios.get(`/winners`);
         return response.data;
     }
 );
@@ -29,8 +29,8 @@ export const deleteSquadron = createAsyncThunk(
     'squadrons/delete',
     async (initialPost) => {
         const { id } = initialPost;
-        //const response = await axios.delete(`${URL}/squadron/${id}`)
-        const response = await axios.delete(`/squadron/${id}`)
+        const response = await axios.delete(`${URL}/squadron/${id}`)
+        //const response = await axios.delete(`/squadron/${id}`)
         if (response?.status === 200) return response.data;
     })
 
@@ -38,17 +38,17 @@ export const updateSquadron = createAsyncThunk(
     'squadrons/update',
     async (initialPost) => {
         const { id, speed } = initialPost;
-        //const response = await axios.put(`${URL}/squadron/${id}`, { speed })
-        const response = await axios.put(`/squadron/${id}`, { speed })
+        const response = await axios.put(`${URL}/squadron/${id}`, { speed })
+        //const response = await axios.put(`/squadron/${id}`, { speed })
         if (response?.status === 200) return response.data;
     })
 
 export const updateWinner = createAsyncThunk(
-    'winner/fetch',
+    'winner/update',
     async (initialPost) => {
         const { id } = initialPost;
-        //const response = await axios.put(`${URL}/winner/${id}`)
-        const response = await axios.put(`/winner/${id}`)
+        const response = await axios.put(`${URL}/winner/${id}`)
+        //const response = await axios.put(`/winner/${id}`)
         if (response?.status === 200) return response.data;
     })
 
@@ -56,8 +56,8 @@ export const createSquadron = createAsyncThunk(
     'squadrons/create',
     async (initialPost) => {
         const { name, speed, weight } = initialPost;
-        //const response = await axios.post(`${URL}/squadrons/`, { name, speed, weight })
-        const response = await axios.post(`/squadrons/`, { name, speed, weight })
+        const response = await axios.post(`${URL}/squadrons/`, { name, speed, weight })
+        //const response = await axios.post(`/squadrons/`, { name, speed, weight })
         if (response?.status === 200) return response.data;
     })
 

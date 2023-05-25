@@ -82,7 +82,7 @@ const App = () => {
   }
 
   const getParticlesAnimation = () => {
-    let i = 500
+    let i = 50
 
     while (--i > -1) {
       let dot = document.createElement("div")
@@ -92,10 +92,10 @@ const App = () => {
       gsap.to(dot, {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
-        z: Math.random() * Math.PI * 1000,
+        z: Math.random() * Math.PI * 10,
       })
       gsap.to(dot, {
-        duration: 100,
+        duration: 30,
         z: 100,
       })
     }
@@ -149,7 +149,6 @@ const App = () => {
             trigger: el,
             start: "-=800",
             end: "top",
-            invalidateOnRefresh: true,
             scrub: false,
           },
         })
