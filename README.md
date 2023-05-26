@@ -6,7 +6,9 @@
 
 <ul>
 <li>HTML</li>
+</ul><ul>
 <li>CSS</li>
+</ul><ul>
 <li>JavaScript</li>
 </ul><ul>
 <li>React</li>
@@ -59,7 +61,8 @@ git clone https://github.com/dithiane/swapi-squadron-race.git</p><ul>
 
 <p>Check it out:
 <ul>
-<li><a href="./prep/intro.png">Intro</a></li>
-<li><a href="./prep/game.png">Game</a></li>
-<li><a href="https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a></li>
+<img src="./prep/intro.png"/>
+<img src="./prep/game.png"/>
+<a href="https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">Starwars Squadron Game Video presentation</a>
+<a href="http://18.204.19.56/">Game</a>
 </ul>

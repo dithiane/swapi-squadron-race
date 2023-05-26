@@ -102,6 +102,8 @@ const App = () => {
   }
 
   useEffect(() => {
+    dispatch(fetchSquadrons())
+
     window.addEventListener("wheel", onScroll)
     window.addEventListener("resize", onResize)
 
@@ -203,10 +205,6 @@ const App = () => {
       ))}
     </div>
   )
-
-  useEffect(() => {
-    if (!showModal && !refWinner.current) dispatch(fetchSquadrons())
-  }, [showModal])
 
   const sendSquadronToAction = (id, name, speed, type) => {
     setSquadron({ id, name, speed })
