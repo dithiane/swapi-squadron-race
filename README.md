@@ -1,4 +1,4 @@
-<h1>Sarwar squadron's race game</h1>
+<h1>StarWar squadron's race game</h1>
 
 <p>Squadrons, players assume the role of a starfighter pilot. Players engage in a race in the space, can upgrade their speed, remove opponents, and be winner.</p>
 
