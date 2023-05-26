@@ -181,7 +181,6 @@ const App = () => {
 
   useEffect(() => {
     addColorToAll()
-    addAction()
   }, [deployed, starShips])
 
   const deploySquadrons = () => (
@@ -277,6 +276,7 @@ const App = () => {
 
   const handleShow = () => {
     toggleModal()
+    dispatch(fetchSquadrons())
     resetActions()
   }
 
