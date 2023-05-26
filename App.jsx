@@ -295,9 +295,7 @@ const App = () => {
     <>
       <div ref={refTop}></div>
       <div className={`controls-${showModal}`}>
-        <button onClick={(e) => createNewSquadron(e)}>
-          Create New Squadron
-        </button>
+        <button onClick={(e) => createNewSquadron(e)}>Create Squadron</button>
         <button onClick={(e) => showWinners(e)}>Show Winners</button>
         <button onClick={(e) => assignSquadron(e)}>Select Squadron</button>
         <button onClick={(e) => playAgain()}>Play again</button>
