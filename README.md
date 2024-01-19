@@ -64,7 +64,6 @@ git clone https://github.com/dithiane/swapi-squadron-race.git</p><ul>
 <img src="./prep/intro.png"/>
 <img src="./prep/game.png"/>
 </ul><ul>
-<a href="https://drive.google.com/file/d/13psjeRpnoTyieRLi14y4iRBal-zb8PDo/view?usp=sharing">StarWars Squadron Game Video presentation</a>
 </ul><ul>
 <a href="https://swapi-squadron-race1.onrender.com/">Game</a>
 </ul>
